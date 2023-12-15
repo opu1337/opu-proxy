@@ -8,10 +8,10 @@ class Program
     static void Main()
     {
         Console.WriteLine("   ____  ____  __  __  ________  ________________ __ __________ ");
-        Console.WriteLine("  / __ \\/ __ \\/ / / / / ____/ / / / ____/ ____/ //_// ____/ __ \\");
-        Console.WriteLine(" / / / / /_/ / / / / / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /");
-        Console.WriteLine("/ /_/ / ____/ /_/ / / /___/ __  / /___/ /___/ /| |/ /___/ _, _/ ");
-        Console.WriteLine("\\____/_/    \\____/  \\____/_/ /_/_____\\____/_/ |_/_____/_/ |_|");
+        Console.WriteLine("  / __ \/ __ \/ / / / / ____/ / / / ____/ ____/ //_// ____/ __ \")
+        Console.WriteLine(" / / / / /_/ / / / / / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /")
+        Console.WriteLine("/ /_/ / ____/ /_/ / / /___/ __  / /___/ /___/ /| |/ /___/ _, _/ ")
+        Console.WriteLine("\____/_/    \____/  \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|  ")
 
         Console.WriteLine("\nPlease select proxy type:");
         Console.WriteLine("1. Socks4");
