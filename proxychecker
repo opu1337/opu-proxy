@@ -1,0 +1,77 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("   ____  ____  __  __  ________  ________________ __ __________ ");
+        Console.WriteLine("  / __ \\/ __ \\/ / / / / ____/ / / / ____/ ____/ //_// ____/ __ \\");
+        Console.WriteLine(" / / / / /_/ / / / / / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /");
+        Console.WriteLine("/ /_/ / ____/ /_/ / / /___/ __  / /___/ /___/ /| |/ /___/ _, _/ ");
+        Console.WriteLine("\\____/_/    \\____/  \\____/_/ /_/_____\\____/_/ |_/_____/_/ |_|");
+
+        Console.WriteLine("\nPlease select proxy type:");
+        Console.WriteLine("1. Socks4");
+        Console.WriteLine("2. Http");
+
+        string proxyType = "";
+        switch (Console.ReadLine())
+        {
+            case "1":
+                proxyType = "Socks4";
+                break;
+            case "2":
+                proxyType = "Http";
+                break;
+            default:
+                Console.WriteLine("Invalid selection.");
+                return;
+        }
+
+        Console.WriteLine("You selected " + proxyType + ". Now checking proxies...");
+
+        List<string> proxies = new List<string>();
+        using (StreamReader sr = new StreamReader("proxies.txt"))
+        {
+            while (sr.Peek() != -1)
+            {
+                proxies.Add(sr.ReadLine());
+            }
+        }
+
+        WebProxy myProxy = default(WebProxy);
+        StreamWriter aliveWriter = new StreamWriter("Alive.txt", true);
+        StreamWriter deadWriter = new StreamWriter("Dead.txt", true);
+        int aliveCount = 0;
+        int deadCount = 0;
+        foreach (string proxy in proxies)
+        {
+            try
+            {
+                myProxy = new WebProxy(proxy);
+                HttpWebRequest r = (HttpWebRequest)WebRequest.Create("http://www.google.com");
+                r.UserAgent = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36";
+                r.Timeout = 3000;
+                r.Proxy = myProxy;
+                HttpWebResponse re = (HttpWebResponse)r.GetResponse();
+                aliveWriter.WriteLine(proxy);
+                aliveCount++;
+            }
+            catch (Exception)
+            {
+                deadWriter.WriteLine(proxy);
+                deadCount++;
+            }
+        }
+        aliveWriter.Close();
+        deadWriter.Close();
+
+        Console.WriteLine("================");
+        Console.WriteLine("[ Alive : " + aliveCount + " ]");
+        Console.WriteLine("[ Dead  : " + deadCount + " ]");
+        Console.WriteLine("================");
+    }
+}
